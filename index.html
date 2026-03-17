@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yohan Lee — Design Leadership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f7f7f5;
+  --bg-white: #fff;
+  --bg-warm: #efeee9;
+  --bg-dark: #111;
+  --text: #111;
+  --text-body: #333;
+  --text-secondary: #666;
+  --text-caption: #999;
+  --text-muted: #bbb;
+  --border: #ddd;
+  --border-light: #eee;
+  --col-gap: 24px;
+  --section-pad: 80px;
+  --font-en: 'Inter', sans-serif;
+  --font-ko: 'Noto Sans KR', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ko);
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+  padding: 0 var(--section-pad);
+  height: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(247,247,245,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s;
+}
+nav.on-dark {
+  background: rgba(17,17,17,0.92);
+  border-bottom-color: #222;
+}
+nav.on-dark .logo, nav.on-dark .nav-links a { color: #fff; }
+nav .logo {
+  font-family: var(--font-en); font-weight: 500; font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text);
+}
+nav .nav-links { display: flex; gap: 32px; list-style: none; }
+nav .nav-links a {
+  font-family: var(--font-en); font-size: 11px; font-weight: 400;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-caption); text-decoration: none; transition: color 0.3s;
+}
+nav .nav-links a:hover, nav .nav-links a.active { color: var(--text); }
+nav.on-dark .nav-links a:hover, nav.on-dark .nav-links a.active { color: #fff; }
+
+/* ── Progress ── */
+.progress-bar {
+  position: fixed; top: 55px; left: 0; height: 1px;
+  background: var(--text); z-index: 200; transition: width 0.12s linear;
+}
+
+/* ── Slide dots ── */
+.slide-indicator {
+  position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 8px;
+}
+.slide-indicator .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-muted); cursor: pointer; transition: all 0.3s;
+}
+.slide-indicator .dot.active {
+  background: var(--text); transform: scale(1.3);
+}
+
+/* ── Section base ── */
+section {
+  min-height: 100vh; scroll-snap-align: start;
+  display: flex; align-items: center; justify-content: center;
+  padding: 120px var(--section-pad) 80px;
+  position: relative;
+}
+
+/* ── 12-col grid container ── */
+.slide-content {
+  max-width: 1120px; width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0 var(--col-gap);
+}
+.span-12 { grid-column: 1 / -1; }
+.span-8 { grid-column: 1 / 9; }
+.span-7 { grid-column: 1 / 8; }
+.span-6 { grid-column: 1 / 7; }
+.span-6-right { grid-column: 7 / -1; }
+.span-5 { grid-column: 1 / 6; }
+.span-5-right { grid-column: 8 / -1; }
+.span-4 { grid-column: 1 / 5; }
+.span-4-mid { grid-column: 5 / 9; }
+.span-4-right { grid-column: 9 / -1; }
+.col-1-6 { grid-column: 1 / 7; }
+.col-7-12 { grid-column: 7 / 13; }
+.col-1-4 { grid-column: 1 / 5; }
+.col-5-8 { grid-column: 5 / 9; }
+.col-9-12 { grid-column: 9 / 13; }
+.col-2-11 { grid-column: 2 / 12; }
+.col-3-10 { grid-column: 3 / 11; }
+.col-4-9 { grid-column: 4 / 10; }
+
+/* ── Reveal ── */
+.reveal {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.12s; }
+.d2 { transition-delay: 0.24s; }
+.d3 { transition-delay: 0.36s; }
+.d4 { transition-delay: 0.48s; }
+
+/* ── Typography ── */
+.label {
+  font-family: var(--font-en); font-size: 10px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--text-caption);
+  margin-bottom: 28px;
+}
+.title-hero {
+  font-family: var(--font-en);
+  font-size: clamp(52px, 7vw, 100px); font-weight: 300;
+  line-height: 1.05; letter-spacing: -2px;
+}
+.title-lg {
+  font-size: clamp(26px, 3vw, 38px); font-weight: 300;
+  line-height: 1.5; letter-spacing: -0.3px;
+}
+.title-md {
+  font-size: clamp(20px, 2vw, 28px); font-weight: 300;
+  line-height: 1.5;
+}
+.body {
+  font-size: 15px; font-weight: 400; color: var(--text-body);
+  line-height: 1.8; max-width: 480px;
+}
+.body-sm {
+  font-size: 13px; font-weight: 400; color: var(--text-secondary);
+  line-height: 1.8;
+}
+em { font-style: normal; font-weight: 600; color: var(--text); }
+
+/* ── Quote ── */
+.quote {
+  border-left: 1px solid var(--border); padding: 16px 0 16px 24px;
+  margin: 28px 0;
+}
+.quote p {
+  font-family: var(--font-en); font-size: 18px; font-weight: 300;
+  font-style: italic; line-height: 1.7; color: var(--text);
+}
+.quote cite {
+  display: block; font-size: 11px; font-style: normal;
+  color: var(--text-caption); margin-top: 10px; letter-spacing: 0.3px;
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg-white); border: 1px solid var(--border-light);
+  padding: 32px; border-radius: 2px;
+}
+.card-label {
+  font-family: var(--font-en); font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 16px; font-weight: 500; margin-bottom: 10px; line-height: 1.4;
+}
+.card-body {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.75;
+}
+
+/* ── Metric ── */
+.metric { border-top: 1px solid var(--border); padding: 28px 0; }
+.metric-value {
+  font-family: var(--font-en); font-size: 44px; font-weight: 300;
+  letter-spacing: -1px; line-height: 1;
+}
+.metric-label {
+  font-size: 13px; color: var(--text-secondary); margin-top: 8px;
+}
+.metric-sub {
+  font-family: var(--font-en); font-size: 10px; color: var(--text-caption);
+  letter-spacing: 1px; text-transform: uppercase; margin-top: 4px;
+}
+
+/* ── Flow (inline) ── */
+.flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.flow-tag {
+  font-family: var(--font-en); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.5px; padding: 8px 18px;
+  border: 1px solid var(--border); border-radius: 2px;
+}
+.flow-tag.fill { background: var(--text); color: var(--bg); border-color: var(--text); }
+.flow-sep { font-size: 12px; color: var(--text-muted); }
+
+/* ── Flow (vertical) ── */
+.flow-v {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+}
+.flow-v .flow-sep { margin-left: 18px; }
+
+/* ── Steps ── */
+.steps {
+  display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr);
+  border-left: 1px solid var(--border);
+}
+.step {
+  padding: 28px 24px; border-right: 1px solid var(--border);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.step.active { background: var(--bg-white); }
+.step-num {
+  font-family: var(--font-en); font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; color: var(--text-caption); margin-bottom: 14px;
+}
+.step-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.step-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ── Compare ── */
+.compare-box {
+  padding: 32px; border: 1px solid var(--border); border-radius: 2px;
+}
+.compare-box.dim { opacity: 0.45; }
+.compare-box.strong { border-color: var(--text); }
+.compare-box .compare-label {
+  font-family: var(--font-en); font-size: 10px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text-caption);
+  margin-bottom: 14px;
+}
+.compare-box.strong .compare-label { color: var(--text); }
+.compare-arrow-col {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--text-muted);
+}
+
+/* ── List ── */
+.list { list-style: none; }
+.list li {
+  padding: 12px 0; border-bottom: 1px solid var(--border-light);
+  font-size: 14px; color: var(--text-body);
+  display: flex; align-items: baseline; gap: 12px; line-height: 1.6;
+}
+.list li::before {
+  content: ''; width: 3px; height: 3px; flex-shrink: 0;
+  background: var(--text-caption); border-radius: 50%; margin-top: 9px;
+}
+
+/* ── Tags ── */
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 12px; padding: 6px 16px; border: 1px solid var(--border);
+  border-radius: 2px; font-weight: 400;
+}
+.tag.fill { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* ── Dark sections ── */
+.dark { background: var(--bg-dark); color: #eee; }
+.dark .label { color: #555; }
+.dark .body, .dark .body-sm { color: #999; }
+.dark em { color: #fff; }
+.dark .border, .dark .metric { border-color: #222; }
+.dark .compare-box { border-color: #333; }
+.dark .compare-box.strong { border-color: #fff; }
+.dark .compare-box .compare-label { color: #555; }
+.dark .compare-box.strong .compare-label { color: #fff; }
+.dark .compare-arrow-col { color: #444; }
+.dark .list li { border-bottom-color: #222; color: #aaa; }
+.dark .list li::before { background: #555; }
+.dark .quote { border-left-color: #333; }
+.dark .quote cite { color: #555; }
+
+/* ── Warm sections ── */
+.warm { background: var(--bg-warm); }
+.warm .card { background: #f7f7f5; border-color: #ddd; }
+
+/* ── Flywheel ── */
+.flywheel-wrap { position: relative; width: 320px; height: 320px; margin: 0 auto; }
+.flywheel-circle {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.flywheel-inner {
+  position: absolute; inset: 40px; border-radius: 50%;
+  border: 1px solid var(--border-light);
+}
+.fw-node {
+  position: absolute; font-family: var(--font-en);
+  font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-secondary);
+}
+.fw-node:nth-child(1) { top: -10px; left: 50%; transform: translateX(-50%); }
+.fw-node:nth-child(2) { top: 50%; right: -60px; transform: translateY(-50%); }
+.fw-node:nth-child(3) { bottom: -10px; left: 50%; transform: translateX(-50%); }
+.fw-node:nth-child(4) { top: 50%; left: -72px; transform: translateY(-50%); }
+.fw-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-en); font-size: 9px; font-weight: 500;
+  letter-spacing: 3px; color: var(--text-muted);
+}
+
+/* ── Center layout helper ── */
+.center-content {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+
+/* ── Slide number ── */
+.slide-num {
+  position: absolute; bottom: 24px; left: var(--section-pad);
+  font-family: var(--font-en); font-size: 10px; font-weight: 400;
+  letter-spacing: 2px; color: var(--text-muted);
+}
+.dark .slide-num { color: #444; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  :root { --section-pad: 28px; --col-gap: 16px; }
+  section { padding: 80px var(--section-pad) 60px; }
+  .slide-content { display: flex; flex-direction: column; gap: 28px; }
+  .steps { grid-template-columns: 1fr !important; }
+  .slide-indicator { display: none; }
+  nav { padding: 0 var(--section-pad); }
+  .flywheel-wrap { width: 240px; height: 240px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav id="mainNav">
+  <div class="logo">Yohan Lee</div>
+  <ul class="nav-links">
+    <li><a href="#session1" class="nav-link" data-section="1">AI Leadership</a></li>
+    <li><a href="#session2" class="nav-link" data-section="2">Case Study</a></li>
+  </ul>
+</nav>
+
+<div class="slide-indicator" id="slideIndicator"></div>
+
+
+<!-- ========================================= -->
+<!-- SESSION 1                                  -->
+<!-- ========================================= -->
+
+<!-- S1-01 Title -->
+<section id="session1" data-session="1">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal">Session 01</p>
+      <p class="body reveal d1" style="text-align:center; margin-bottom:20px;">AI 시대, 디자인 조직을 어떻게 변화시켰는가</p>
+      <h1 class="title-hero reveal d2">Design<br>Leadership</h1>
+      <p class="reveal d3" style="margin-top:48px; font-family:var(--font-en); font-size:11px; color:var(--text-muted); letter-spacing:3px;">YOHAN LEE — 2025</p>
+    </div>
+  </div>
+</section>
+
+<!-- S1-02 Industry Change -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12">
+      <p class="label reveal">Industry Change</p>
+    </div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:12px;">AI가 제품을 만드는 방식을 <em>근본적으로</em> 바꾸고 있습니다</h2>
+      <p class="body">기존에는 역할이 순차적으로 나뉘어 있었지만, AI로 인해 실행 속도가 증가하고 역할 경계가 흐려지고 있습니다.</p>
+    </div>
+    <div class="span-12 reveal d2" style="margin-top:36px;">
+      <!-- Role Evolution Diagram -->
+      <svg viewBox="0 0 900 280" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background panels -->
+        <rect x="0" y="0" width="280" height="280" rx="8" fill="#f0f0ee"/>
+        <rect x="310" y="0" width="280" height="280" rx="8" fill="#eaeae6"/>
+        <rect x="620" y="0" width="280" height="280" rx="8" fill="#e4e4df"/>
+        <!-- Labels -->
+        <text x="140" y="32" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#999" letter-spacing="1">The Past</text>
+        <text x="450" y="32" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#666" letter-spacing="1">Today</text>
+        <text x="760" y="32" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#333" letter-spacing="1">The Future</text>
+
+        <!-- Past: 3 separate circles -->
+        <circle cx="90" cy="130" r="50" fill="#8b7ea0" opacity="0.85"/>
+        <text x="90" y="130" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">DESIGNER</text>
+        <circle cx="200" cy="120" r="48" fill="#5b5be6" opacity="0.8"/>
+        <text x="200" y="120" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">PM</text>
+        <circle cx="140" cy="220" r="44" fill="#6b7a6b" opacity="0.8"/>
+        <text x="140" y="220" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">ENGINEER</text>
+        <!-- Dotted lines -->
+        <line x1="130" y1="145" x2="165" y2="135" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="110" y1="172" x2="125" y2="185" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Today: overlapping circles -->
+        <circle cx="400" cy="140" r="58" fill="#8b7ea0" opacity="0.75"/>
+        <text x="400" y="140" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">DESIGNER</text>
+        <circle cx="490" cy="130" r="56" fill="#5b5be6" opacity="0.75"/>
+        <text x="490" y="130" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">PM</text>
+        <circle cx="430" cy="215" r="50" fill="#6b7a6b" opacity="0.75"/>
+        <text x="430" y="215" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff" letter-spacing="1">ENGINEER</text>
+
+        <!-- Future: one large merged circle -->
+        <defs>
+          <linearGradient id="futureGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b7ea0"/>
+            <stop offset="50%" stop-color="#5b5be6"/>
+            <stop offset="100%" stop-color="#6b7a6b"/>
+          </linearGradient>
+        </defs>
+        <circle cx="760" cy="150" r="95" fill="url(#futureGrad)" opacity="0.85"/>
+        <text x="760" y="150" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#fff" letter-spacing="2">MAKERS</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- S1-03 Process Shift -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Process Shift</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">디자인 프로세스의<br><em>패러다임 전환</em></h2>
+      <div class="quote" style="margin-top:28px;">
+        <p>"The traditional design<br>process is dead."</p>
+        <cite>Jenny Wen — Design Lead, Claude at Anthropic</cite>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d2" style="display:grid; grid-template-columns:1fr 24px 1fr; gap:0; align-items:start; padding-top:8px;">
+      <div class="compare-box dim">
+        <div class="compare-label">Before</div>
+        <div class="flow-v">
+          <span class="flow-tag">Research</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag">Ideation</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag">Design</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag">Development</span>
+        </div>
+      </div>
+      <div class="compare-arrow-col">→</div>
+      <div class="compare-box strong">
+        <div class="compare-label">AI Era</div>
+        <div class="flow-v">
+          <span class="flow-tag fill">Hypothesis</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag fill">Experiment</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag fill">Learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-04 Core Problem -->
+<section data-session="1" class="dark">
+  <div class="slide-content">
+    <div class="col-2-11 center-content">
+      <p class="label reveal">Core Problem</p>
+      <h2 class="title-lg reveal d1" style="max-width:640px;">기술 발전 속도가 사람이 경험을 통해 학습하는 속도보다 <em>빠르다</em></h2>
+      <p class="body reveal d2" style="text-align:center; margin-top:24px; color:#888;">그래서 조직은 더 빠르게 실험하고, 더 빠르게 학습해야 합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S1-05 Three Problems -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Problems Found</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:36px;">디자인 조직에서 발견한 <em>세 가지 문제</em></h2>
+    </div>
+    <div class="col-1-4 reveal d2">
+      <div class="card" style="height:100%;">
+        <div class="card-label">01</div>
+        <div class="card-title">반복적인 디자인 작업</div>
+        <div class="card-body">로컬라이즈, 반복 UI 수정 등 단순 생산 업무가 디자이너의 시간을 소비</div>
+      </div>
+    </div>
+    <div class="col-5-8 reveal d3">
+      <div class="card" style="height:100%;">
+        <div class="card-label">02</div>
+        <div class="card-title">디자인 시스템의 한계</div>
+        <div class="card-body">Component Library 중심 시스템으로는 실제 제품의 복잡성을 담기 어려움</div>
+      </div>
+    </div>
+    <div class="col-9-12 reveal d4">
+      <div class="card" style="height:100%;">
+        <div class="card-label">03</div>
+        <div class="card-title">조직 학습 속도</div>
+        <div class="card-body">의사결정이 개인 경험에 의존하고 같은 실험이 반복되는 구조</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem 1 Divider -->
+<section data-session="1" class="dark" style="min-height:60vh;">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal" style="color:#444;">Problem</p>
+      <div class="reveal d1" style="font-family:var(--font-en); font-size:12px; font-weight:500; letter-spacing:3px; color:#444; margin-bottom:16px;">01</div>
+      <h2 class="reveal d2" style="font-size:clamp(28px,4vw,48px); font-weight:300; color:#999;">반복적인 디자인 작업</h2>
+    </div>
+  </div>
+</section>
+
+<!-- S1-06 Problem 1 -->
+<section data-session="1" class="warm">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Problem 01</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-md">반복 작업이<br>디자이너를 소비하고 있었습니다</h2>
+      <ul class="list" style="margin-top:24px;">
+        <li>로컬라이즈 작업 (다국어 대응)</li>
+        <li>반복적인 UI 수정</li>
+        <li>단순 생산 업무</li>
+      </ul>
+      <p class="body" style="margin-top:20px;">이 작업들이 <em>문제 해결에 집중하기 어렵게</em> 만들었습니다.</p>
+    </div>
+    <div class="col-7-12 reveal d2" style="display:flex; align-items:center; justify-content:center;">
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-en); font-size:72px; font-weight:200; color:var(--text-muted); line-height:1;">80%</div>
+        <p class="body-sm" style="margin-top:12px;">디자이너 시간의 대부분이<br>반복 작업에 소비</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-07 Solution 1: Localize Automation -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 01 — Localize Automation</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">AI 기반<br><em>로컬라이즈 자동화</em></h2>
+      <p class="body" style="margin-top:16px;">일본어 런칭 과정에서 발생하는 대량의 로컬라이즈 작업을 AI 기반으로 자동화했습니다.</p>
+      <a href="https://www.bucketplace.com/post/2026-02-24-%EB%A6%AC%EC%86%8C%EC%8A%A4-8%EB%B0%B0-%EC%A0%88%EA%B0%90-ai%EB%A1%9C-%ED%95%B4%EA%B2%B0%ED%95%9C-%EB%A1%9C%EC%BB%AC%EB%9D%BC%EC%9D%B4%EC%A6%88-%EB%8C%80%EA%B3%B5%EC%82%AC/" target="_blank" style="display:inline-block; margin-top:16px; font-family:var(--font-en); font-size:11px; letter-spacing:1px; color:var(--text-caption); text-decoration:none; border-bottom:1px solid var(--border); padding-bottom:2px; transition:color 0.3s;">Read full story on Blog →</a>
+    </div>
+    <div class="col-7-12 reveal d2">
+      <div class="compare-box dim" style="margin-bottom:16px;">
+        <div class="compare-label">Before</div>
+        <p class="body-sm">디자이너가 수작업으로 텍스트 교체, 레이아웃 조정, QA까지 직접 수행</p>
+      </div>
+      <div class="compare-box strong">
+        <div class="compare-label">After — AI Automation</div>
+        <p class="body-sm">키값 기반 자동 번역 + 레이아웃 자동 조정 + 자동 QA 검수</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-07b Solution 1: Process & Data -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 01 — Process</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:32px;">AI Operator 포지션 <em>채용 제안</em>부터 <em>표준화</em>까지</h2>
+    </div>
+    <div class="span-12 reveal d2">
+      <div class="steps" style="--cols:4;">
+        <div class="step">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title">반복 작업 분석</div>
+          <div class="step-body">로컬라이즈 작업의 패턴과 소요 리소스 정량화</div>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title">표준 구조 설계</div>
+          <div class="step-body">개발팀·데이터팀과 로그/키값 구조를 하나의 표준으로 통일</div>
+        </div>
+        <div class="step active">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title">AI Operator 채용</div>
+          <div class="step-body">새 포지션을 제안하고 경영진 설득, 채용 완료</div>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title">자동화 툴 구축</div>
+          <div class="step-body">로컬라이즈 자동화 파이프라인 개발 및 적용</div>
+        </div>
+      </div>
+    </div>
+    <div class="span-12 reveal d3" style="margin-top:32px;">
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border);">
+        <div class="metric" style="padding:24px; border-right:1px solid var(--border); border-top:none;">
+          <div class="metric-value">8x</div>
+          <div class="metric-label">리소스 절감</div>
+          <div class="metric-sub">Resource Efficiency</div>
+        </div>
+        <div class="metric" style="padding:24px; border-right:1px solid var(--border); border-top:none;">
+          <div class="metric-value" style="font-size:36px;">수작업→자동</div>
+          <div class="metric-label">로컬라이즈 프로세스 전환</div>
+          <div class="metric-sub">Process</div>
+        </div>
+        <div class="metric" style="padding:24px; border-top:none;">
+          <div class="metric-value" style="font-size:36px;">KR · JP</div>
+          <div class="metric-label">다국어 동시 운영 체계 구축</div>
+          <div class="metric-sub">Coverage</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-08 Impact 1 -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Impact 01</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">툴보다 중요한 것은<br><em>조직에 정착시키는 것</em></h2>
+      <ul class="list" style="margin-top:24px;">
+        <li>팀 전체 대상 교육 프로그램 운영</li>
+        <li>워크플로우 가이드 문서 작성</li>
+        <li>실제 프로젝트에 단계적 적용</li>
+      </ul>
+      <div class="card" style="border-color:var(--text); margin-top:24px;">
+        <div class="card-label" style="color:var(--text);">Result</div>
+        <p class="body">디자이너들이 반복 작업이 아닌 <em>문제 해결에 집중</em>할 수 있게 되었습니다.</p>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d2" style="align-self:start;">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-string-id-plugin.png" alt="String ID Master Plugin 교육 문서" style="width:100%; display:block;">
+        <div style="padding:16px 20px; border-top:1px solid var(--border-light);">
+          <p style="font-size:12px; font-weight:500; color:var(--text);">String ID Master Plugin 교육 문서</p>
+          <p style="font-size:11px; color:var(--text-caption); margin-top:4px;">로컬라이즈 규칙, 기술 로직, 플러그인 사용법을 팀 전체에 공유</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-08b Leadership: Growth Language -->
+<section data-session="1" class="dark">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Leadership Insight</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg">위기가 아닌 <em>성장의 언어</em>로 팀원을 설득해야 합니다</h2>
+      <p class="body" style="margin-top:12px; max-width:640px;">"AI가 우리 직무를 위협한다"는 프레이밍은 팀원을 방어적으로 만듭니다. 대신 "AI로 인해 우리가 할 수 있는 <em>역할이 넓어진다</em>"는 방향으로 대화를 이끌어야 합니다.</p>
+    </div>
+    <div class="col-1-6 reveal d2" style="margin-top:28px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#222; border:1px solid #222; border-radius:2px; overflow:hidden;">
+        <div style="background:var(--bg-dark); padding:20px;">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:#555; margin-bottom:12px;">AI로 확장 가능한 영역</div>
+          <ul class="list" style="margin:0;">
+            <li style="font-size:13px;">문제 정의</li>
+            <li style="font-size:13px;">우선순위 설정</li>
+            <li style="font-size:13px;">지표 설계 · 데이터 분석</li>
+          </ul>
+        </div>
+        <div style="background:#1a1a1a; padding:20px;">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:#fff; margin-bottom:12px;">디자이너의 차별점</div>
+          <ul class="list" style="margin:0;">
+            <li style="font-size:13px;"><em>인터랙션 디자인</em></li>
+            <li style="font-size:13px;"><em>브랜드 비주얼</em></li>
+            <li style="font-size:13px;"><em>사용성 검증</em></li>
+          </ul>
+        </div>
+      </div>
+      <p class="body-sm" style="margin-top:14px;">"직무의 벽이 무너진다"는 막연한 말 대신, 구체적으로 <em style="color:#fff;">어떤 역량을 키울 수 있는지</em> 함께 그려주는 것이 리더의 역할입니다.</p>
+    </div>
+    <div class="col-7-12 reveal d3" style="margin-top:28px; align-self:start;">
+      <div style="border:1px solid #222; border-radius:2px; overflow:hidden;">
+        <img src="img-ai-project.png" alt="AI 역량강화 프로젝트" style="width:100%; display:block;">
+        <div style="padding:12px 16px; border-top:1px solid #222;">
+          <p style="font-size:11px; color:#555;">AI 역량강화 프로젝트 — 각 팀원이 자신의 불편함에서 출발한 AI 활용 프로젝트</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem 2 Divider -->
+<section data-session="1" class="dark" style="min-height:60vh;">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal" style="color:#444;">Problem</p>
+      <div class="reveal d1" style="font-family:var(--font-en); font-size:12px; font-weight:500; letter-spacing:3px; color:#444; margin-bottom:16px;">02</div>
+      <h2 class="reveal d2" style="font-size:clamp(28px,4vw,48px); font-weight:300; color:#999;">디자인 시스템의 한계</h2>
+    </div>
+  </div>
+</section>
+
+<!-- S1-09 Problem 02: As-Is -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Problem 02 — As-Is</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:8px;">디자인 시스템의 <em>구조적 한계</em></h2>
+      <p class="body">기존 디자인 시스템은 Component Library 중심입니다. 하지만 실제 제품은 Component + Pattern + Business Logic의 조합으로 만들어집니다.</p>
+    </div>
+    <div class="col-1-4 reveal d2" style="margin-top:28px; align-self:start;">
+      <div class="card" style="height:100%;">
+        <div style="width:40px; height:40px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="card-title">완성된 UI 라이브러리</div>
+        <div class="card-body">컴포넌트를 모두 만들어놓고 가져다 쓰는 구조</div>
+      </div>
+    </div>
+    <div class="col-5-8 reveal d3" style="margin-top:28px; align-self:start;">
+      <div class="card" style="height:100%;">
+        <div style="width:40px; height:40px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="card-title">문서 중심 governance</div>
+        <div class="card-body">가이드 문서에 의존하는 관리 체계</div>
+      </div>
+    </div>
+    <div class="col-9-12 reveal d4" style="margin-top:28px; align-self:start;">
+      <div class="card" style="height:100%;">
+        <div style="width:40px; height:40px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <div class="card-title">고정된 UI</div>
+        <div class="card-body">시스템은 Component만 다루지만 실제 제품은 Pattern + Biz Logic이 필요</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-10 Solution 02: To-Be -->
+<section data-session="1" class="warm">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 02 — To-Be</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg">AI Native Product System</h2>
+      <p class="body" style="margin-top:8px;">팀 목표를 UI 제작에서 <em>AI 기반 Product Generation</em>으로 전환. 역할별로 시스템을 나눠 관리합니다.</p>
+    </div>
+    <div class="col-1-6 reveal d2" style="margin-top:28px; align-self:start;">
+      <div class="compare-box strong" style="padding:28px;">
+        <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:var(--text); margin-bottom:4px;">PLATFORM DESIGNER</div>
+        <div class="compare-label" style="margin-bottom:20px;">Vibe Coding DS 관리</div>
+        <ul class="list" style="margin:0 0 20px;">
+          <li><em>Design Tokens 정의</em></li>
+          <li><em>코드 기반 컴포넌트 규칙</em></li>
+          <li><em>AI 생성 가능한 UI 구조</em></li>
+        </ul>
+        <div style="font-family:var(--font-en); font-size:11px; color:var(--text-muted); background:var(--bg); padding:12px 16px; border-radius:2px; line-height:2;">
+          Tokens → Components → Layouts
+        </div>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3" style="margin-top:28px; align-self:start;">
+      <div class="compare-box strong" style="padding:28px;">
+        <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:var(--text); margin-bottom:4px;">PRODUCT DESIGNER</div>
+        <div class="compare-label" style="margin-bottom:20px;">Pattern 정의 및 실험 결과 관리</div>
+        <ul class="list" style="margin:0 0 20px;">
+          <li>UX Rules · Interaction 패턴 정의</li>
+          <li>실험 결과를 패턴에 반영·업데이트</li>
+          <li>제품 맥락에 맞는 레이아웃 설계</li>
+        </ul>
+        <div style="font-family:var(--font-en); font-size:11px; color:var(--text-muted); background:var(--bg); padding:12px 16px; border-radius:2px; line-height:2;">
+          pattern/<br>
+          <span style="padding-left:12px;">├── checkout.md</span><br>
+          <span style="padding-left:12px;">├── search-result.md</span><br>
+          <span style="padding-left:12px;">└── backoffice-form.md</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-11 Phases -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Phased Approach</p></div>
+    <div class="span-8 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:32px;">단계적 변화</h2>
+    </div>
+    <div class="span-12 reveal d2">
+      <div class="steps" style="--cols:3;">
+        <div class="step">
+          <div class="step-num">PHASE 01</div>
+          <div class="step-title">빠른 실행</div>
+          <div class="step-body">기존 방식으로 빠르게 UI 제작하며 패턴 데이터 수집</div>
+        </div>
+        <div class="step">
+          <div class="step-num">PHASE 02</div>
+          <div class="step-title">패턴 정리</div>
+          <div class="step-body">MD 기반 Knowledge System으로 구조화</div>
+        </div>
+        <div class="step active">
+          <div class="step-num">PHASE 03</div>
+          <div class="step-title">AI 생성</div>
+          <div class="step-body">AI 기반 화면 생성 프로세스 구축</div>
+        </div>
+      </div>
+    </div>
+    <div class="span-8 reveal d3" style="margin-top:28px;">
+      <div class="quote">
+        <p style="font-style:normal; font-size:15px; font-family:var(--font-ko);">최종 목표 — PO, PD, Dev <em>누구든 자신이 원하는 기획을 쉽게 구축</em>할 수 있는 프로세스</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-11c Solution 2 Case: Admin AI Template -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 02 — Real Case</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:8px;">템플릿 제작으로 작업 기간, <em>예상 20일 → 6일</em>로 단축</h2>
+      <p class="body">PRD만 가지고 Figma Make + Claude Code로 80% 아웃풋을 만들어보는 미션을 드렸습니다.</p>
+    </div>
+    <div class="col-1-6 reveal d2" style="margin-top:28px; align-self:start;">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-figma-make-template.png" alt="Figma Make AI 템플릿" style="width:100%; display:block;">
+        <div style="padding:12px 16px; border-top:1px solid var(--border-light);">
+          <p style="font-size:11px; color:var(--text-caption);">Spec Doc → Figma Make → 어드민 디자인 자동 생성</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3" style="margin-top:28px; align-self:start;">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-admin-lesson.png" alt="AI 템플릿 레슨런" style="width:100%; display:block;">
+        <div style="padding:12px 16px; border-top:1px solid var(--border-light);">
+          <p style="font-size:11px; color:var(--text-caption);">AI 템플릿을 만들면서 얻은 레슨런 — 시스템 문서화, 패턴 구조화, 피그마 언어 규칙</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem 3 Divider -->
+<section data-session="1" class="dark" style="min-height:60vh;">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal" style="color:#444;">Problem</p>
+      <div class="reveal d1" style="font-family:var(--font-en); font-size:12px; font-weight:500; letter-spacing:3px; color:#444; margin-bottom:16px;">03</div>
+      <h2 class="reveal d2" style="font-size:clamp(28px,4vw,48px); font-weight:300; color:#999;">조직 학습 속도</h2>
+    </div>
+  </div>
+</section>
+
+<!-- S1-12 Problem 3 -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Problem 03</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:36px;">조직 학습의 <em>구조적 문제</em></h2>
+    </div>
+    <div class="col-1-4 reveal d2">
+      <div class="card" style="height:100%;">
+        <div class="card-label">01</div>
+        <div class="card-title">같은 실험 반복</div>
+        <div class="card-body">이전 실험 결과가 공유되지 않아 같은 실수를 반복</div>
+      </div>
+    </div>
+    <div class="col-5-8 reveal d3">
+      <div class="card" style="height:100%;">
+        <div class="card-label">02</div>
+        <div class="card-title">지식 축적 부족</div>
+        <div class="card-body">개인의 경험에 의존하는 의사결정 구조</div>
+      </div>
+    </div>
+    <div class="col-9-12 reveal d4">
+      <div class="card" style="height:100%;">
+        <div class="card-label">03</div>
+        <div class="card-title">의사결정 속도 저하</div>
+        <div class="card-body">매번 처음부터 고민해야 하는 비효율적 구조</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-13 Solution 3 -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 03</p></div>
+    <div class="span-8 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:32px;">Lesson Learned System</h2>
+    </div>
+    <div class="col-1-6 reveal d2" style="align-self:start;">
+      <div class="compare-box dim" style="padding:28px;">
+        <div class="compare-label">기존 Weekly Meeting</div>
+        <p style="font-size:15px;">과업 공유 중심</p>
+        <p class="body-sm" style="margin-top:6px;">"이번 주에 A 작업 했습니다"</p>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3" style="align-self:start;">
+      <div class="compare-box strong" style="padding:28px;">
+        <div class="compare-label">After</div>
+        <p style="font-size:15px; font-weight:500;">Lesson Learned 공유 중심</p>
+        <ul class="list" style="margin-top:12px;">
+          <li>문제 → 가설 → 실험 → 결과</li>
+        </ul>
+      </div>
+    </div>
+    <div class="span-12 reveal d4" style="margin-top:32px;">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-lesson-learned.png" alt="Product Design Tracker & Lessons" style="width:100%; display:block;">
+        <div style="padding:12px 20px; border-top:1px solid var(--border-light);">
+          <p style="font-size:12px; font-weight:500; color:var(--text);">Product Design Tracker & Lessons</p>
+          <p style="font-size:11px; color:var(--text-caption); margin-top:3px;">프로젝트별 레슨런을 UX 원칙으로 축적 — 트랙, 크리틱 조, 레슨런 모아보기로 분류</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-13b Solution 3 Next: Claude Skill Sharing -->
+<section data-session="1" class="warm">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 03 — Next Step</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:12px;">개인의 경험을 <em>조직의 자산</em>으로</h2>
+      <p class="body" style="margin-bottom:36px;">Lesson Learned를 넘어, 각자의 업무 스킬을 AI에 저장하고 조직 전체에 공유하는 시스템을 구축합니다.</p>
+    </div>
+    <!-- Diagram: 4-step flow -->
+    <div class="span-12 reveal d2">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:2px; overflow:hidden;">
+        <!-- Step 1 -->
+        <div style="padding:32px 24px; border-right:1px solid var(--border); background:var(--bg-white);">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:var(--text-caption); margin-bottom:16px;">STEP 01</div>
+          <div style="width:48px; height:48px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><path d="M9 22h6"/></svg>
+          </div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">개인 스킬 저장</div>
+          <div class="body-sm">각 디자이너가 자신만의 워크플로우를 Claude Skill로 구조화</div>
+          <div style="margin-top:12px; font-family:var(--font-en); font-size:11px; color:var(--text-muted); background:var(--bg); padding:8px 12px; border-radius:2px;">
+            design-review.md<br>
+            persona.md<br>
+            user-voice.md
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div style="padding:32px 24px; border-right:1px solid var(--border); background:var(--bg-white);">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:var(--text-caption); margin-bottom:16px;">STEP 02</div>
+          <div style="width:48px; height:48px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+          </div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">GitHub에 공유</div>
+          <div class="body-sm">공유 레포지토리에 업로드하여 조직 전체가 접근 가능</div>
+          <div style="margin-top:12px; font-family:var(--font-en); font-size:11px; color:var(--text-muted); background:var(--bg); padding:8px 12px; border-radius:2px;">
+            claude-marketplace/<br>
+            └── skills/
+          </div>
+        </div>
+        <!-- Step 3 (KEY) -->
+        <div style="padding:32px 24px; border-right:1px solid #222; background:var(--text); color:var(--bg);">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:#999; margin-bottom:16px;">STEP 03</div>
+          <div style="width:48px; height:48px; background:var(--bg); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">스킬 상호 공유</div>
+          <div style="font-size:13px; color:#999; line-height:1.7;">팀원 간 스킬을 다운로드하여 자신의 Claude에 적용</div>
+          <div style="margin-top:12px; font-family:var(--font-en); font-size:11px; color:#666; background:#222; padding:8px 12px; border-radius:2px;">
+            Plugin으로<br>전사 배포
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div style="padding:32px 24px; background:var(--bg-white);">
+          <div style="font-family:var(--font-en); font-size:10px; font-weight:500; letter-spacing:2px; color:var(--text-caption); margin-bottom:16px;">STEP 04</div>
+          <div style="width:48px; height:48px; background:var(--text); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div style="font-size:14px; font-weight:500; margin-bottom:8px;">Claude Cowork</div>
+          <div class="body-sm">공유된 스킬을 기반으로 팀이 동시에 AI와 협업</div>
+          <div style="margin-top:12px; font-family:var(--font-en); font-size:11px; color:var(--text-muted); background:var(--bg); padding:8px 12px; border-radius:2px;">
+            동시 멀티 작업<br>실시간 협업
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom note -->
+    <div class="span-12 reveal d3" style="margin-top:24px;">
+      <div class="quote" style="margin:0;">
+        <p style="font-style:normal; font-size:14px; font-family:var(--font-ko);">실제 팀원이 만든 <em>디자인 리뷰 워크플로우 스킬</em>이 슬랙에서 공유되었고, 전사 Claude Plugin에 등록 요청까지 진행 중</p>
+        <cite>이선진/디어 — 페르소나 워크스루 → VOC 조회 → 디자인 리뷰 → 개발 스펙 → 채널 공유까지 한 흐름으로 자동화</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-13c Solution 3 Examples: Skill Sharing Cases -->
+<section data-session="1">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Solution 03 — Real Cases</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:36px;">팀원들이 자발적으로 <em>스킬을 만들고 공유</em>하기 시작했습니다</h2>
+    </div>
+    <div class="col-1-6 reveal d2">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-skill-deeer.png" alt="디자인 리뷰 워크플로 스킬" style="width:100%; display:block;">
+        <div style="padding:16px 20px; border-top:1px solid var(--border-light);">
+          <p style="font-size:12px; font-weight:500; color:var(--text);">디자인 리뷰 워크플로 스킬</p>
+          <p style="font-size:11px; color:var(--text-caption); margin-top:4px;">이선진/디어 — 페르소나 → VOC → 리뷰 → 스펙 → 크리틱까지 한 흐름으로 자동화</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3">
+      <div style="border:1px solid var(--border); border-radius:2px; overflow:hidden; background:var(--bg-white);">
+        <img src="img-skill-ikpyo.png" alt="오늘 할일 트래킹 스킬" style="width:100%; display:block;">
+        <div style="padding:16px 20px; border-top:1px solid var(--border-light);">
+          <p style="font-size:12px; font-weight:500; color:var(--text);">오늘 할일 트래킹 스킬</p>
+          <p style="font-size:11px; color:var(--text-caption); margin-top:4px;">Ikpyo — 캘린더·슬랙·노션을 연결해 할일을 자동 수집·우선순위 분류</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-14 Org Impact -->
+<section data-session="1" class="dark">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal" style="text-align:center;">Organizational Impact</p></div>
+    <div class="col-2-11 center-content reveal d1">
+      <h2 class="title-lg" style="margin-bottom:48px;">디자인 조직의 역할이 바뀌었습니다</h2>
+    </div>
+    <div class="col-1-6 reveal d2">
+      <div class="compare-box dim" style="text-align:center;">
+        <div class="compare-label">Before</div>
+        <p style="font-family:var(--font-en); font-size:20px; font-weight:300;">Design Execution</p>
+        <p class="body-sm" style="margin-top:8px;">화면 제작자</p>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3">
+      <div class="compare-box strong" style="text-align:center;">
+        <div class="compare-label">After</div>
+        <p style="font-family:var(--font-en); font-size:20px; font-weight:500; color:#fff;">Product Decision</p>
+        <p class="body-sm" style="margin-top:8px;">제품 의사결정자</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1-15 Closing -->
+<section data-session="1" class="dark">
+  <div class="slide-content">
+    <div class="col-2-11 center-content">
+      <p class="label reveal">Closing</p>
+      <h2 class="title-md reveal d1" style="font-weight:300; color:#888; margin-bottom:8px;">
+        AI 시대 디자인 리더의 역할은<br>디자인을 만드는 것이 아니라
+      </h2>
+      <h2 class="title-lg reveal d2" style="font-weight:500; margin-bottom:0;">
+        <em>좋은 의사결정을 할 수 있는<br>조직을 만드는 것</em>
+      </h2>
+      <div style="width:40px; height:1px; background:#333; margin:32px 0;" class="reveal d3"></div>
+      <p class="body reveal d3" style="text-align:center; color:#888; max-width:520px;">
+        "AI가 소프트웨어를 만들어줄 거야"라고 말하지만, 진짜 어려운 부분은 만드는 것 자체가 아닙니다.<br><em style="color:#fff;">"이 기능에 뭘 넣어야 하냐"를 놓고 의견이 갈리는 순간</em>,<br>그 판단은 여전히 사람의 몫입니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<section style="min-height:50vh;">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal">Next</p>
+      <h2 class="title-hero reveal d1" style="font-size:clamp(36px,5vw,64px); font-weight:200;">Case Study</h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================= -->
+<!-- SESSION 2                                  -->
+<!-- ========================================= -->
+
+<!-- S2-01 Title -->
+<section id="session2" data-session="2">
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <p class="label reveal">Session 02 — Case Study</p>
+      <h1 class="title-hero reveal d1">Farmmorning</h1>
+      <p class="body reveal d2" style="text-align:center; margin-top:28px;">UX 리더십을 통한 비즈니스 임팩트 창출</p>
+      <div class="flow reveal d3" style="justify-content:center; margin-top:20px;">
+        <span class="flow-tag" style="font-size:11px;">Content</span>
+        <span class="flow-sep">→</span>
+        <span class="flow-tag" style="font-size:11px;">Community</span>
+        <span class="flow-sep">→</span>
+        <span class="flow-tag" style="font-size:11px;">Marketplace</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-02 Context -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Context</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">팜모닝은 농업인을 위한<br><em>정보 콘텐츠 앱</em>이었습니다</h2>
+      <ul class="list" style="margin-top:24px;">
+        <li>농사 정보</li>
+        <li>병충해 정보</li>
+        <li>작물 재배 방법</li>
+      </ul>
+      <p class="body" style="margin-top:16px;">많은 농민들이 정보를 얻기 위해 방문했지만...</p>
+    </div>
+    <div class="col-7-12 reveal d2" style="align-self:start;">
+      <div class="card" style="border-color:var(--text); width:100%;">
+        <div class="card-label" style="color:var(--text);">Problem</div>
+        <p class="body">콘텐츠 소비는 많지만 <em>실제 행동으로 이어지지 않는다</em></p>
+        <div class="flow-v" style="margin-top:20px;">
+          <span class="flow-tag">Information App</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag">Content Consumption</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag" style="color:var(--text-caption);">App Exit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-03 Data -->
+<section data-session="2" class="warm">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Data Analysis</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">데이터가 보여준<br><em>사용자 행동 패턴</em></h2>
+      <div class="flow-v" style="margin-top:28px; align-items:center;">
+        <span class="flow-tag" style="width:160px; text-align:center;">Search</span>
+        <span class="flow-sep">↓</span>
+        <span class="flow-tag" style="width:160px; text-align:center;">Read Content</span>
+        <span class="flow-sep">↓</span>
+        <span class="flow-tag" style="width:160px; text-align:center; color:var(--text-caption);">Exit</span>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d2" style="align-self:start;">
+      <div class="card" style="width:100%;">
+        <div class="card-label">Issues</div>
+        <ul class="list">
+          <li>커뮤니티 활동 없음</li>
+          <li>사용자 간 관계 형성 없음</li>
+          <li>거래 행동 없음</li>
+        </ul>
+        <p class="body-sm" style="margin-top:16px;">→ 비즈니스 확장이 어려운 구조</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-04 Key Question -->
+<section data-session="2" class="dark">
+  <div class="slide-content">
+    <div class="col-2-11 center-content">
+      <p class="label reveal">Key Question</p>
+      <h2 class="title-lg reveal d1" style="max-width:640px; font-weight:200;">
+        농업 정보 소비를 어떻게<br><em>실제 거래 행동</em>으로<br>연결할 것인가?
+      </h2>
+      <p class="body reveal d2" style="text-align:center; margin-top:24px; color:#888;">
+        이것은 단순 UX 개선이 아니라 <em style="color:#fff;">제품 전략 문제</em>였습니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- S2-05 Research -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Research</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">사용자 리서치에서<br>발견한 <em>핵심 인사이트</em></h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:28px;">
+        <div class="metric">
+          <div class="metric-value">200</div>
+          <div class="metric-label">농민 설문</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">20</div>
+          <div class="metric-label">심층 인터뷰</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d2" style="align-self:start;">
+      <div class="quote">
+        <p style="font-size:22px;">"Farmers trust<br>other farmers"</p>
+        <cite>농민들은 플랫폼 정보보다 다른 농민의 경험을 더 신뢰했습니다.</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-06 Strategy -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Strategy</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:36px;">제품 전략을 <em>재정의</em>했습니다</h2>
+    </div>
+    <div class="col-1-6 reveal d2">
+      <div class="compare-box dim" style="text-align:center;">
+        <div class="compare-label">기존</div>
+        <p style="font-family:var(--font-en); font-size:17px;">Farming Information App</p>
+        <p class="body-sm" style="margin-top:6px;">일방향 정보 제공</p>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d3">
+      <div class="compare-box strong" style="text-align:center;">
+        <div class="compare-label">새로운 전략</div>
+        <div class="flow-v" style="align-items:center; margin-top:4px;">
+          <span class="flow-tag fill" style="width:140px; text-align:center;">Community</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag fill" style="width:140px; text-align:center;">Trust</span>
+          <span class="flow-sep">↓</span>
+          <span class="flow-tag fill" style="width:140px; text-align:center;">Marketplace</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-07 Flywheel -->
+<section data-session="2" class="warm">
+  <div class="slide-content">
+    <div class="col-1-6 reveal d1">
+      <p class="label">Product Flywheel</p>
+      <h2 class="title-lg">사용자 활동이<br>서로를 강화하는<br><em>Flywheel 모델</em></h2>
+      <p class="body" style="margin-top:16px;">커뮤니티를 통해 신뢰를 형성하고, 그 신뢰를 거래로 연결하는 자기 강화 구조입니다.</p>
+    </div>
+    <div class="col-7-12 reveal d2" style="display:flex; align-items:center; justify-content:center;">
+      <div class="flywheel-wrap">
+        <div class="flywheel-circle"></div>
+        <div class="flywheel-inner"></div>
+        <div class="fw-node">Information</div>
+        <div class="fw-node">Community</div>
+        <div class="fw-node">Trust</div>
+        <div class="fw-node">Marketplace</div>
+        <div class="fw-center">FLYWHEEL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-08 Execution -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Execution</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:36px;">제품 구조를 <em>크게 변경</em>했습니다</h2>
+    </div>
+    <div class="col-1-4 reveal d2">
+      <div class="card" style="height:100%;">
+        <div class="card-label">01</div>
+        <div class="card-title">Home 구조 개편</div>
+        <div class="card-body">정보 중심 홈 → 커뮤니티 피드 중심 홈</div>
+      </div>
+    </div>
+    <div class="col-5-8 reveal d3">
+      <div class="card" style="height:100%;">
+        <div class="card-label">02</div>
+        <div class="card-title">Community 기능 도입</div>
+        <div class="card-body">질문, 경험 공유, 작물 재배 사례 등 농민 간 소통</div>
+      </div>
+    </div>
+    <div class="col-9-12 reveal d4">
+      <div class="card" style="height:100%;">
+        <div class="card-label">03</div>
+        <div class="card-title">직거래 장터 구축</div>
+        <div class="card-body">신뢰 기반 농민 간 직거래 마켓플레이스</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-09 Leadership -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Leadership</p></div>
+    <div class="col-1-6 reveal d1">
+      <h2 class="title-lg">UX 리더로서<br>수행한 <em>역할</em></h2>
+      <div class="tags" style="margin-top:24px;">
+        <span class="tag fill">UX 팀 구축</span>
+        <span class="tag fill">리서치 조직 신설</span>
+        <span class="tag">제품 전략 정렬</span>
+        <span class="tag">디자인 실행 리딩</span>
+      </div>
+    </div>
+    <div class="col-7-12 reveal d2" style="align-self:start;">
+      <div class="card" style="width:100%;">
+        <div class="card-label">Organization</div>
+        <div class="card-title">조직 구축 성과</div>
+        <ul class="list">
+          <li>시니어 포함 <em>12명</em> 채용</li>
+          <li>UX 리서치 팀 신설</li>
+          <li>플랫폼 디자인 팀 구축</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-10 Impact -->
+<section data-session="2">
+  <div class="slide-content">
+    <div class="span-12"><p class="label reveal">Business Impact</p></div>
+    <div class="span-12 reveal d1">
+      <h2 class="title-lg" style="margin-bottom:12px;">주요 지표가 <em>크게 개선</em>되었습니다</h2>
+    </div>
+    <div class="col-1-4 reveal d2">
+      <div class="metric">
+        <div class="metric-value">600%</div>
+        <div class="metric-label">Scroll Depth 증가</div>
+        <div class="metric-sub">Engagement</div>
+      </div>
+    </div>
+    <div class="col-5-8 reveal d3">
+      <div class="metric">
+        <div class="metric-value" style="font-size:36px;">29.9 → 55.9</div>
+        <div class="metric-label">W+1 Retention</div>
+        <div class="metric-sub">Retention</div>
+      </div>
+    </div>
+    <div class="col-9-12 reveal d4">
+      <div class="metric">
+        <div class="metric-value" style="font-size:36px;">50 → 80</div>
+        <div class="metric-label">Monthly Returning Users</div>
+        <div class="metric-sub">재방문율</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-11 Product Impact -->
+<section data-session="2" class="warm">
+  <div class="slide-content">
+    <div class="col-2-11 center-content">
+      <p class="label reveal">Product Impact</p>
+      <h2 class="title-lg reveal d1">제품 구조 자체가 <em>진화</em>했습니다</h2>
+      <div class="flow reveal d2" style="justify-content:center; margin-top:48px;">
+        <span class="flow-tag" style="padding:12px 28px;">Content App</span>
+        <span class="flow-sep">→</span>
+        <span class="flow-tag" style="padding:12px 28px;">Community Platform</span>
+        <span class="flow-sep">→</span>
+        <span class="flow-tag fill" style="padding:12px 28px;">Agriculture Marketplace</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2-12 Key Learning -->
+<section data-session="2" class="dark">
+  <div class="slide-content">
+    <div class="col-2-11 center-content">
+      <p class="label reveal">Key Learning</p>
+      <h2 class="title-lg reveal d1" style="max-width:640px; font-weight:200;">
+        UX는 화면을 개선하는 일이 아니라<br><em>사용자의 행동 구조를 설계하는 일</em>
+      </h2>
+      <div style="width:40px; height:1px; background:#333; margin:36px 0;" class="reveal d2"></div>
+      <p class="body reveal d2" style="text-align:center; color:#888;">
+        디자인 리더의 역할은 좋은 화면이 아니라<br><em style="color:#fff;">좋은 제품 전략을 실행하는 조직</em>을 만드는 것
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Final -->
+<section>
+  <div class="slide-content">
+    <div class="col-3-10 center-content">
+      <h1 class="title-hero reveal" style="font-weight:200;">Thank You</h1>
+      <p class="reveal d1" style="font-family:var(--font-en); font-size:11px; color:var(--text-muted); margin-top:28px; letter-spacing:3px;">YOHAN LEE</p>
+    </div>
+  </div>
+</section>
+
+
+<script>
+// Reveal
+// Slide numbers
+document.querySelectorAll('section').forEach((s, i) => {
+  const num = document.createElement('div');
+  num.classList.add('slide-num');
+  num.textContent = String(i + 1).padStart(2, '0');
+  s.appendChild(num);
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Progress
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  bar.style.width = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
+});
+
+// Dots
+const sections = document.querySelectorAll('section');
+const indicator = document.getElementById('slideIndicator');
+sections.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.classList.add('dot');
+  d.onclick = () => s.scrollIntoView({ behavior: 'smooth' });
+  indicator.appendChild(d);
+});
+const dots = indicator.querySelectorAll('.dot');
+const dotObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = Array.from(sections).indexOf(e.target);
+      dots.forEach((d, j) => d.classList.toggle('active', j === i));
+    }
+  });
+}, { threshold: 0.5 });
+sections.forEach(s => dotObs.observe(s));
+
+// Nav active + dark mode
+const navEl = document.getElementById('mainNav');
+const navLinks = document.querySelectorAll('.nav-link');
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const s = e.target.dataset.session;
+      navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === s));
+      navEl.classList.toggle('on-dark', e.target.classList.contains('dark'));
+    }
+  });
+}, { threshold: 0.5 });
+sections.forEach(s => navObs.observe(s));
+
+// Keyboard
+let cur = 0;
+document.addEventListener('keydown', e => {
+  if (['ArrowDown',' ','PageDown'].includes(e.key)) {
+    e.preventDefault();
+    cur = Math.min(cur + 1, sections.length - 1);
+    sections[cur].scrollIntoView({ behavior: 'smooth' });
+  } else if (['ArrowUp','PageUp'].includes(e.key)) {
+    e.preventDefault();
+    cur = Math.max(cur - 1, 0);
+    sections[cur].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+const syncObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) cur = Array.from(sections).indexOf(e.target); });
+}, { threshold: 0.5 });
+sections.forEach(s => syncObs.observe(s));
+</script>
+
+</body>
+</html>
