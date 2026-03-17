@@ -44,6 +44,32 @@
 
 ---
 
+## v2.0 — Full Dark Theme + Interactions (현재)
+- **커밋:** `e7345ad`
+- **날짜:** 2026-03-17
+- **디자인 톤:** reactbits.dev 스타일 다크 (#0a0a12), accent #5227FF
+- **커버:** DotGrid 인터랙션 (마우스 근접 반응 + 클릭 충격파)
+- **Problem 디바이더 (06,12,17):**
+  - WebGL 노이즈 웨이브 배경, 풀스크린
+  - 큰 번호 + 솔루션 요약 타이틀
+- **인터랙션:**
+  - 카드/박스: 호버 lift + glow shadow
+  - 메트릭/숫자: easeOutCubic count-up
+  - Steps: 순차적 fade-in (120ms delay)
+  - 이미지: scroll-triggered scale fade-in
+- **주요 변경:**
+  - 전체 CSS 다크 테마 전환
+  - SVG 다이어그램 다크 팔레트 재색칠
+  - 03번: Before/After 통합 그리드, 라인 완화
+  - 13번: 3컬럼 통합 그리드 테이블
+  - 19번: 통합 그리드 compare 박스
+  - 20번: accent 컬러 STEP 03, 의미 맞는 SVG 아이콘 (Save, Git, Users, Zap)
+  - 21번: 이미지 높이 280px 크롭 통일
+  - 슬라이드 번호: pill badge 스타일
+- **복원:** `git checkout v2.0`
+
+---
+
 ## 참고: 인터랙션 없는 최신 콘텐츠 버전
 v1.1이 인터랙션 적용 전 마지막 버전입니다.
 콘텐츠는 v1.2가 최신이므로, 인터랙션만 빼고 싶다면 v1.2에서 커버 섹션만 v1.1 스타일로 교체하면 됩니다.
