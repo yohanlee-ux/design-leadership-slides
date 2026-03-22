@@ -1230,300 +1230,112 @@ em { font-style: normal; font-weight: 600; color: #fff; }
 <!-- ========================================= -->
 
 <!-- S2-01 Title -->
-<section id="session2" data-session="2">
-  <div class="slide-content">
-    <div class="col-3-10 center-content">
-      <p class="label reveal">Session 02 — Case Study</p>
-      <h1 class="title-hero reveal d1">Farmmorning</h1>
-      <p class="body reveal d2" style="text-align:center; margin-top:28px;">UX 리더십을 통한 비즈니스 임팩트 창출</p>
+<section id="session2" data-session="2" style="min-height:100vh; background:linear-gradient(135deg, #0a1a0a 0%, #0a0a12 40%, #0a0a12 100%); position:relative; overflow:hidden;">
+  <!-- Subtle green aurora accent -->
+  <div style="position:absolute; top:-20%; left:-10%; width:50vw; height:50vw; background:radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 70%); pointer-events:none;"></div>
+  <div style="position:absolute; bottom:-10%; right:-5%; width:40vw; height:40vw; background:radial-gradient(circle, rgba(34,197,94,0.04) 0%, transparent 70%); pointer-events:none;"></div>
+  <div class="slide-content" style="position:relative; z-index:1;">
+    <div class="col-3-10 center-content" style="text-align:center;">
+      <p class="reveal" style="font-family:var(--font-en); font-size:10px; font-weight:400; letter-spacing:4px; color:rgba(34,197,94,0.5); margin-bottom:32px;">SESSION 02 — CASE STUDY</p>
+      <h1 class="reveal d1" style="font-family:var(--font-en); font-size:clamp(48px,7vw,80px); font-weight:300; letter-spacing:-2px; color:#fff; line-height:1.1;">Farmmorning</h1>
+      <p class="reveal d2" style="font-size:16px; font-weight:300; color:rgba(255,255,255,0.5); margin-top:24px;">UX 리더십을 통한 비즈니스 임팩트 창출</p>
+      <div style="width:32px; height:1px; background:rgba(34,197,94,0.3); margin:40px auto 0;" class="reveal d3"></div>
       <div class="flow reveal d3" style="justify-content:center; margin-top:20px;">
-        <span class="flow-tag" style="font-size:11px;">Content</span>
-        <span class="flow-sep">→</span>
-        <span class="flow-tag" style="font-size:11px;">Community</span>
-        <span class="flow-sep">→</span>
-        <span class="flow-tag" style="font-size:11px;">Marketplace</span>
+        <span class="flow-tag" style="font-size:11px; border-color:rgba(34,197,94,0.2); color:rgba(255,255,255,0.4);">Content</span>
+        <span class="flow-sep" style="color:rgba(34,197,94,0.4);">→</span>
+        <span class="flow-tag" style="font-size:11px; border-color:rgba(34,197,94,0.2); color:rgba(255,255,255,0.4);">Community</span>
+        <span class="flow-sep" style="color:rgba(34,197,94,0.4);">→</span>
+        <span class="flow-tag" style="font-size:11px; border-color:rgba(34,197,94,0.3); color:rgba(255,255,255,0.6); background:rgba(34,197,94,0.08);">Marketplace</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S2-02 Context -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Context</p></div>
-    <div class="col-1-6 reveal d1">
-      <h2 class="title-lg">팜모닝은 농업인을 위한<br><em>정보 콘텐츠 앱</em>이었습니다</h2>
-      <ul class="list" style="margin-top:24px;">
-        <li>농사 정보</li>
-        <li>병충해 정보</li>
-        <li>작물 재배 방법</li>
-      </ul>
-      <p class="body" style="margin-top:16px;">많은 농민들이 정보를 얻기 위해 방문했지만...</p>
-    </div>
-    <div class="col-7-12 reveal d2" style="align-self:start;">
-      <div class="card" style="border-color:var(--text); width:100%;">
-        <div class="card-label" style="color:var(--text);">Problem</div>
-        <p class="body">콘텐츠 소비는 많지만 <em>실제 행동으로 이어지지 않는다</em></p>
-        <div class="flow-v" style="margin-top:20px;">
-          <span class="flow-tag">Information App</span>
-          <span class="flow-sep">↓</span>
-          <span class="flow-tag">Content Consumption</span>
-          <span class="flow-sep">↓</span>
-          <span class="flow-tag" style="color:var(--text-caption);">App Exit</span>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- S2 accent override: green -->
+<style>
+  [data-session="2"] .flow-tag.fill { background:rgba(34,197,94,0.8) !important; border-color:rgba(34,197,94,0.8) !important; }
+  [data-session="2"] .card-label { color:rgba(34,197,94,0.7) !important; }
+  [data-session="2"] .metric-value { color:rgba(34,197,94,0.9) !important; }
+  [data-session="2"] .label { color:rgba(34,197,94,0.5) !important; }
+  [data-session="2"].dark .label { color:rgba(34,197,94,0.4) !important; }
+  .fm-slide { padding:0 !important; }
+  .fm-slide img { width:100%; height:100%; object-fit:contain; display:block; }
+  .fm-slide .slide-content { position:absolute; inset:0; max-width:100%; padding:0; display:block; }
+</style>
+
+<!-- S2-02 STEP1: Problem -->
+<!-- S2-02: PDF p4 - STEP1 Problem -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p04.png" alt="STEP1 Problem"></div>
 </section>
 
-<!-- S2-03 Data -->
-<section data-session="2" class="warm">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Data Analysis</p></div>
-    <div class="col-1-6 reveal d1">
-      <h2 class="title-lg">데이터가 보여준<br><em>사용자 행동 패턴</em></h2>
-      <div class="flow-v" style="margin-top:28px; align-items:center;">
-        <span class="flow-tag" style="width:160px; text-align:center;">Search</span>
-        <span class="flow-sep">↓</span>
-        <span class="flow-tag" style="width:160px; text-align:center;">Read Content</span>
-        <span class="flow-sep">↓</span>
-        <span class="flow-tag" style="width:160px; text-align:center; color:var(--text-caption);">Exit</span>
-      </div>
-    </div>
-    <div class="col-7-12 reveal d2" style="align-self:start;">
-      <div class="card" style="width:100%;">
-        <div class="card-label">Issues</div>
-        <ul class="list">
-          <li>커뮤니티 활동 없음</li>
-          <li>사용자 간 관계 형성 없음</li>
-          <li>거래 행동 없음</li>
-        </ul>
-        <p class="body-sm" style="margin-top:16px;">→ 비즈니스 확장이 어려운 구조</p>
-      </div>
-    </div>
-  </div>
+<!-- S2-03: PDF p5 - Key Insight -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p05.png" alt="Key Insight"></div>
 </section>
 
-<!-- S2-04 Key Question -->
+<!-- S2-04: PDF p6 - Problem Detail 1 -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p06.png" alt="Problem 1"></div>
+</section>
+
+<!-- S2-05: PDF p7 - Problem Detail 2 -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p07.png" alt="Problem 2"></div>
+</section>
+
+<!-- S2-06: PDF p8 - STEP2 Strategy + Flywheel -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p08.png" alt="STEP2 Strategy"></div>
+</section>
+
+<!-- S2-07: PDF p9 - Execution: Home Feed (dark) -->
+<section data-session="2" class="fm-slide" style="background:#1a1a1a;">
+  <div class="slide-content"><img src="fm-p09.png" alt="Home Feed"></div>
+</section>
+
+<!-- S2-08: PDF p10 - Execution: Community (dark) -->
+<section data-session="2" class="fm-slide" style="background:#1a1a1a;">
+  <div class="slide-content"><img src="fm-p10.png" alt="Community"></div>
+</section>
+
+<!-- S2-09: PDF p11 - Execution: Marketplace (dark) -->
+<section data-session="2" class="fm-slide" style="background:#1a1a1a;">
+  <div class="slide-content"><img src="fm-p11.png" alt="Marketplace"></div>
+</section>
+
+<!-- S2-10: PDF p12 - Result -->
+<section data-session="2" class="fm-slide" style="background:#f5f5f0;">
+  <div class="slide-content"><img src="fm-p12.png" alt="Result"></div>
+</section>
+
+<!-- S2-11 Key Learning -->
 <section data-session="2" class="dark">
   <div class="slide-content">
     <div class="col-2-11 center-content">
-      <p class="label reveal">Key Question</p>
-      <h2 class="title-lg reveal d1" style="max-width:640px; font-weight:200;">
-        농업 정보 소비를 어떻게<br><em>실제 거래 행동</em>으로<br>연결할 것인가?
+      <p class="label reveal" style="color:rgba(34,197,94,0.4);">프로젝트 회고</p>
+      <h2 class="title-md reveal d1" style="font-weight:300; color:var(--text-secondary); margin-bottom:8px;">
+        UX는 화면을 개선하는 일이 아니라
       </h2>
-      <p class="body reveal d2" style="text-align:center; margin-top:24px; color:#888;">
-        이것은 단순 UX 개선이 아니라 <em style="color:#fff;">제품 전략 문제</em>였습니다.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- S2-05 Research -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Research</p></div>
-    <div class="col-1-6 reveal d1">
-      <h2 class="title-lg">사용자 리서치에서<br>발견한 <em>핵심 인사이트</em></h2>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:28px;">
-        <div class="metric">
-          <div class="metric-value">200</div>
-          <div class="metric-label">농민 설문</div>
-        </div>
-        <div class="metric">
-          <div class="metric-value">20</div>
-          <div class="metric-label">심층 인터뷰</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-7-12 reveal d2" style="align-self:start;">
-      <div class="quote">
-        <p style="font-size:22px;">"Farmers trust<br>other farmers"</p>
-        <cite>농민들은 플랫폼 정보보다 다른 농민의 경험을 더 신뢰했습니다.</cite>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-06 Strategy -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Strategy</p></div>
-    <div class="span-12 reveal d1">
-      <h2 class="title-lg" style="margin-bottom:36px;">제품 전략을 <em>재정의</em>했습니다</h2>
-    </div>
-    <div class="col-1-6 reveal d2">
-      <div class="compare-box dim" style="text-align:center;">
-        <div class="compare-label">기존</div>
-        <p style="font-family:var(--font-en); font-size:17px;">Farming Information App</p>
-        <p class="body-sm" style="margin-top:6px;">일방향 정보 제공</p>
-      </div>
-    </div>
-    <div class="col-7-12 reveal d3">
-      <div class="compare-box strong" style="text-align:center;">
-        <div class="compare-label">새로운 전략</div>
-        <div class="flow-v" style="align-items:center; margin-top:4px;">
-          <span class="flow-tag fill" style="width:140px; text-align:center;">Community</span>
-          <span class="flow-sep">↓</span>
-          <span class="flow-tag fill" style="width:140px; text-align:center;">Trust</span>
-          <span class="flow-sep">↓</span>
-          <span class="flow-tag fill" style="width:140px; text-align:center;">Marketplace</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-07 Flywheel -->
-<section data-session="2" class="warm">
-  <div class="slide-content">
-    <div class="col-1-6 reveal d1">
-      <p class="label">Product Flywheel</p>
-      <h2 class="title-lg">사용자 활동이<br>서로를 강화하는<br><em>Flywheel 모델</em></h2>
-      <p class="body" style="margin-top:16px;">커뮤니티를 통해 신뢰를 형성하고, 그 신뢰를 거래로 연결하는 자기 강화 구조입니다.</p>
-    </div>
-    <div class="col-7-12 reveal d2" style="display:flex; align-items:center; justify-content:center;">
-      <div class="flywheel-wrap">
-        <div class="flywheel-circle"></div>
-        <div class="flywheel-inner"></div>
-        <div class="fw-node">Information</div>
-        <div class="fw-node">Community</div>
-        <div class="fw-node">Trust</div>
-        <div class="fw-node">Marketplace</div>
-        <div class="fw-center">FLYWHEEL</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-08 Execution -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Execution</p></div>
-    <div class="span-12 reveal d1">
-      <h2 class="title-lg" style="margin-bottom:36px;">제품 구조를 <em>크게 변경</em>했습니다</h2>
-    </div>
-    <div class="col-1-4 reveal d2">
-      <div class="card" style="height:100%;">
-        <div class="card-label">01</div>
-        <div class="card-title">Home 구조 개편</div>
-        <div class="card-body">정보 중심 홈 → 커뮤니티 피드 중심 홈</div>
-      </div>
-    </div>
-    <div class="col-5-8 reveal d3">
-      <div class="card" style="height:100%;">
-        <div class="card-label">02</div>
-        <div class="card-title">Community 기능 도입</div>
-        <div class="card-body">질문, 경험 공유, 작물 재배 사례 등 농민 간 소통</div>
-      </div>
-    </div>
-    <div class="col-9-12 reveal d4">
-      <div class="card" style="height:100%;">
-        <div class="card-label">03</div>
-        <div class="card-title">직거래 장터 구축</div>
-        <div class="card-body">신뢰 기반 농민 간 직거래 마켓플레이스</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-09 Leadership -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Leadership</p></div>
-    <div class="col-1-6 reveal d1">
-      <h2 class="title-lg">UX 리더로서<br>수행한 <em>역할</em></h2>
-      <div class="tags" style="margin-top:24px;">
-        <span class="tag fill">UX 팀 구축</span>
-        <span class="tag fill">리서치 조직 신설</span>
-        <span class="tag">제품 전략 정렬</span>
-        <span class="tag">디자인 실행 리딩</span>
-      </div>
-    </div>
-    <div class="col-7-12 reveal d2" style="align-self:start;">
-      <div class="card" style="width:100%;">
-        <div class="card-label">Organization</div>
-        <div class="card-title">조직 구축 성과</div>
-        <ul class="list">
-          <li>시니어 포함 <em>12명</em> 채용</li>
-          <li>UX 리서치 팀 신설</li>
-          <li>플랫폼 디자인 팀 구축</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-10 Impact -->
-<section data-session="2">
-  <div class="slide-content">
-    <div class="span-12"><p class="label reveal">Business Impact</p></div>
-    <div class="span-12 reveal d1">
-      <h2 class="title-lg" style="margin-bottom:12px;">주요 지표가 <em>크게 개선</em>되었습니다</h2>
-    </div>
-    <div class="col-1-4 reveal d2">
-      <div class="metric">
-        <div class="metric-value">600%</div>
-        <div class="metric-label">Scroll Depth 증가</div>
-        <div class="metric-sub">Engagement</div>
-      </div>
-    </div>
-    <div class="col-5-8 reveal d3">
-      <div class="metric">
-        <div class="metric-value" style="font-size:36px;">29.9 → 55.9</div>
-        <div class="metric-label">W+1 Retention</div>
-        <div class="metric-sub">Retention</div>
-      </div>
-    </div>
-    <div class="col-9-12 reveal d4">
-      <div class="metric">
-        <div class="metric-value" style="font-size:36px;">50 → 80</div>
-        <div class="metric-label">Monthly Returning Users</div>
-        <div class="metric-sub">재방문율</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-11 Product Impact -->
-<section data-session="2" class="warm">
-  <div class="slide-content">
-    <div class="col-2-11 center-content">
-      <p class="label reveal">Product Impact</p>
-      <h2 class="title-lg reveal d1">제품 구조 자체가 <em>진화</em>했습니다</h2>
-      <div class="flow reveal d2" style="justify-content:center; margin-top:48px;">
-        <span class="flow-tag" style="padding:12px 28px;">Content App</span>
-        <span class="flow-sep">→</span>
-        <span class="flow-tag" style="padding:12px 28px;">Community Platform</span>
-        <span class="flow-sep">→</span>
-        <span class="flow-tag fill" style="padding:12px 28px;">Agriculture Marketplace</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- S2-12 Key Learning -->
-<section data-session="2" class="dark">
-  <div class="slide-content">
-    <div class="col-2-11 center-content">
-      <p class="label reveal">Key Learning</p>
-      <h2 class="title-lg reveal d1" style="max-width:640px; font-weight:200;">
-        UX는 화면을 개선하는 일이 아니라<br><em>사용자의 행동 구조를 설계하는 일</em>
+      <h2 class="title-lg reveal d2">
+        <em>사용자의 행동 구조를 설계하는 일</em>
       </h2>
-      <div style="width:40px; height:1px; background:#333; margin:36px 0;" class="reveal d2"></div>
-      <p class="body reveal d2" style="text-align:center; color:#888;">
-        디자인 리더의 역할은 좋은 화면이 아니라<br><em style="color:#fff;">좋은 제품 전략을 실행하는 조직</em>을 만드는 것
+      <div style="width:32px; height:1px; background:rgba(34,197,94,0.3); margin:32px 0;" class="reveal d3"></div>
+      <p class="body reveal d3" style="text-align:center; max-width:640px; color:var(--text-secondary);">
+        많은 기능으로 제품의 매력을 어필하기보다 유저가 정말로 원하는 <em>큰 문제에 집중하는 것이 장기적으로 좋은 선택</em>이라는 것을 알게 되었습니다.
+        작은 가설 하나씩 검증하면서 공감대를 형성하고, 커뮤니티와 커머스라는 전략에 대한 얼라인이 되어 커뮤니케이션 비용을 줄일 수 있었습니다.
       </p>
     </div>
   </div>
 </section>
 
 <!-- Final -->
-<section>
-  <div class="slide-content">
+<section class="dark" style="position:relative; overflow:hidden;">
+  <div style="position:absolute; top:50%; left:50%; width:400px; height:400px; background:radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 70%); transform:translate(-50%,-50%); pointer-events:none;"></div>
+  <div class="slide-content" style="position:relative; z-index:1;">
     <div class="col-3-10 center-content">
-      <h1 class="title-hero reveal" style="font-weight:200;">Thank You</h1>
-      <p class="reveal d1" style="font-family:var(--font-en); font-size:11px; color:var(--text-muted); margin-top:28px; letter-spacing:3px;">YOHAN LEE</p>
+      <h1 class="title-hero reveal" style="font-weight:200; color:var(--text);">Thank You</h1>
+      <p class="reveal d1" style="font-family:var(--font-en); font-size:11px; color:var(--text-muted); margin-top:28px; letter-spacing:3px;">YOHAN LEE — 2026</p>
     </div>
   </div>
 </section>
